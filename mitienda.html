@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- BOXICON -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- ESTILOS CCS -->
+    <link rel="stylesheet" href="mitienda.css">
+    <title>Piezas</title>
+
+    
+</head>
+<body>
+
+
+
+
+        <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a href="#" class="brand">
+            <i class='bx bxs-home-smile'></i>
+            <span class="text">Admin</span>
+        </a>
+        <ul class="side-menu top">
+            <li class="active">
+                <a href="main.html">
+                    <i class='bx bx-menu-alt-left'></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bxs-shopping-bag-alt' ></i>
+                    <span class="text">Piezas</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bxs-comment-dots' ></i>
+                    <span class="text">Mensanjes</span>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="side-menu">
+            <li>
+                <a href="#">
+                    <i class='bx bxs-cog' ></i>
+                    <span class="text">Ajustes</span>
+                </a>
+            </li>
+        
+            <li>
+                <a href="#" class="logout">
+                    <i class='bx bx-log-out' ></i>
+                    <span class="text">Salir</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+        <!-- SIDEBAR -->
+
+
+        <!-- CONTENT -->
+        <section id="content">
+            <!-- NAVBAR -->
+            <nav>
+                <i class='bx bx-menu'></i>
+                <a href="#" class="nav-link">Categorias</a>
+                <form action="#">
+                    <div class="form-input">
+                        <input type="search" placeholder="Buscar...">
+                        <button type="submite" class="search-btn"><i class='bx bx-search' ></i></button>
+                    </div>
+                </form>
+                <a href="#" class="notification">
+                    <i class='bx bxs-bell' ></i>
+                    <span class="num">8</span>
+                </a>
+                <a href="#" class="profile">
+                    <img src="images/Diseño sin título (91).png" alt="">
+                </a>
+            </nav>
+            <!-- NAVBAR -->
+            
+            <!-- CONTENT -->
+            <main>
+                <section>
+                    <h2>Listado de Piezas</h2>
+                    <ul>
+                        <li>
+                            <h3>Pieza de Motor v8</h3>
+                            <p>Pieza de valvula de alivio y escape</p>
+                            <a href="https://www.mercadolibre.com">Enlace a la Pieza 1</a>
+                            <!-- Agregar imagen para la Pieza 1 -->
+                            <img src="https://img.interempresas.net/fotos/1634297.jpeg" alt="Imagen de la Pieza 1">
+                            <!-- Agregar botón "Editar" que activa la edición -->
+                            <button class="editar-button" data-nombre="Nombre de la Pieza 1" data-descripcion="Descripción de la Pieza 1" data-enlace="#">Editar</button>
+                        </li>
+                        <li>
+                            <h3>Rotor Electrico</h3>
+                            <p>Descripción de la Pieza 2.</p>
+                            <a href="https://www.mercadolibre.com">Enlace a la Pieza 2</a>
+                            <!-- Agregar imagen para la Pieza 2 -->
+                            <img src="https://www.motoressiemens.com/images/motores-siemens-para-bombas-1lf3.jpg" alt="Imagen de la Pieza 2">
+                            <!-- Agregar botón "Editar" que activa la edición -->
+                            <button class="editar-button" data-nombre="Nombre de la Pieza 2" data-descripcion="Descripción de la Pieza 2" data-enlace="#">Editar</button>
+                        </li>
+                        <!-- Repetir esta estructura para cada pieza -->
+                    </ul>
+                </section>
+                
+                <!-- Formulario para editar una pieza (vista para administradores) -->
+                <section id="edicion-pieza" style="display: none;">
+                    <h2>Editar Pieza</h2>
+                    <form action="/editar_pieza" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="pieza-id" name="pieza-id">
+                        <label for="nombre_pieza">Nombre:</label>
+                        <input type="text" id="nombre_pieza" name="nombre_pieza" required>
+                        <br>
+                        <label for="descripcion_pieza">Descripción:</label>
+                        <textarea id="descripcion_pieza" name="descripcion_pieza" required></textarea>
+                        <br>
+                        <label for="enlace_pieza">Enlace:</label>
+                        <input type="text" id="enlace_pieza" name="enlace_pieza" required>
+                        <br>
+                        <!-- Agregar campo para URL de imagen -->
+                        <label for="imagen_pieza">URL de Imagen:</label>
+                        <input type="text" id="imagen_pieza" name="imagen_pieza" required>
+                        <br>
+                        <button type="submit">Guardar Cambios</button>
+                    </form>
+                </section>
+            </main>
+
+               <!-- Agregar JavaScript para manejar la edición -->
+    <script>
+        const editarButtons = document.querySelectorAll(".editar-button");
+        const edicionPieza = document.getElementById("edicion-pieza");
+        const nombrePiezaInput = document.getElementById("nombre_pieza");
+        const descripcionPiezaInput = document.getElementById("descripcion_pieza");
+        const enlacePiezaInput = document.getElementById("enlace_pieza");
+        const imagenPiezaInput = document.getElementById("imagen_pieza");
+        const piezaIdInput = document.getElementById("pieza-id");
+        
+        editarButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                const nombre = button.getAttribute("data-nombre");
+                const descripcion = button.getAttribute("data-descripcion");
+                const enlace = button.getAttribute("data-enlace");
+                const imagen = button.getAttribute("data-imagen"); // Obtén la URL de la imagen
+                const id = button.getAttribute("data-id"); // Asigna una identificación única a cada pieza
+                
+                nombrePiezaInput.value = nombre;
+                descripcionPiezaInput.value = descripcion;
+                enlacePiezaInput.value = enlace;
+                imagenPiezaInput.value = imagen; // Rellena el campo de la URL de la imagen
+                piezaIdInput.value = id;
+                
+                edicionPieza.style.display = "block";
+            });
+        });
+    </script>
+
+            <script src="miteinda.js"></script>
+        </body>
+        </html>
